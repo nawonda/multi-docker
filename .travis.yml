@@ -1,0 +1,31 @@
+sudo: required
+
+# specify docker as a dependency
+services:
+  - docker
+
+#build test version of React project
+before_install:
+  - docker build -t jy1215jy/react-test -f ./cleint-react/Dockerfile.dev .
+  # put other tests build here
+
+# run test
+script:
+  - docker run jy1215jy/react-test npm test -- --coverage
+  # "-- --coverage" is to make the test can return code 0
+
+# build production versions of all projects
+after_success:
+  - docker build -t jy1215jy/multi-client ./client-react
+  - docker build -t jy1215jy/multi-nginx ./nginx
+  - docker build -t jy1215jy/multi-server ./server
+  - docker build -t jy1215jy/multi-worker ./work
+
+  # Log in to the docker CLI
+  - echo "$DOCKERHUB_PASSWORD" | docker login - u "$DOCKERHUB_ID" --password-stdin
+
+  # take those images and push to docker hub
+  - docker push jy1215jy/multi-client
+  - docker push jy1215jy/multi-niginx
+  - docker push jy1215jy/multi-server
+  - docker push jy1215jy/multi-worker
