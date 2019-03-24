@@ -6,7 +6,7 @@ services:
 
 #build test version of React project
 before_install:
-  - docker build -t jy1215jy/react-test -f ./cleint-react/Dockerfile.dev .
+  - docker build -t jy1215jy/react-test -f ./client-react/Dockerfile.dev .
   # put other tests build here
 
 # run test
