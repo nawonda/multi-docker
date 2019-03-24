@@ -26,6 +26,6 @@ after_success:
 
   # take those images and push to docker hub
   - docker push jy1215jy/multi-client
-  - docker push jy1215jy/multi-niginx
+  - docker push jy1215jy/multi-nginx
   - docker push jy1215jy/multi-server
   - docker push jy1215jy/multi-worker
